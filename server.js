@@ -1,22 +1,11 @@
-const express = require('express');
-const mongoose = require('mongoose');
+require("dotenv").config();
+const inquirer = require('inquirer');
+const cTable = require('console.table');
+const mysql = require('mysql2');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-
-app.use(require('./routes'));
-
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network-api', {
-  useFindAndModify: false,
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
+const connection = mysql.createConnection({
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASS,
+  database: process.env.DB,
 });
-
-mongoose.set('debug', true);
-
-app.listen(PORT, () => console.log(`Connected on localhost:${PORT}`));
