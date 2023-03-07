@@ -1,4 +1,4 @@
-# DJ-SocialApi
+# DJ-TrackerOfEmployees
 ## Description
 This is an employee tracker ment for easy logging and finding of information of a companies employees and management.
 ## Usage
