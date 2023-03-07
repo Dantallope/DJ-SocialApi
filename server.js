@@ -3,13 +3,13 @@ const inquirer = require('inquirer');
 //const cTable = require('console.table');
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const connect = mysql.createConnection({
   host: process.env.HOST,
   user: process.env.USER,
   password: process.env.PASS,
   database: process.env.DB,
 });
-connection.connect(err =>{
+connect.connect(err =>{
   if (err) throw err;
   console.log("Employee Tracker!");
   menu();
@@ -21,42 +21,63 @@ const menu = () => {
     type: 'list',
     choices:[
       'View all departments',
-      'View all jobs',
+      'View all roles',
       'View all employees',
       'Add a department',
-      'Add a job',
+      'Add a rob',
       'Add an employee',
-      'Update employee job',
-      'Exit',
+      'Update employee rob',
+      'End',
     ]
   }).then(resp =>{
     switch(resp.main){
       case 'View all departments':
-        viewDepartment();
+        vDep();
         break;
-      case 'View all jobs':
-        viewJobs();
+      case 'View all roles':
+        vRole();
         break;
       case 'View all employees':
-        viewEmployees();
+        vEmpl();
         break;
       case 'Add a department':
-        addDepartment();
+        addDep();
         break;
-      case 'Add a job':
-        addJob();
+      case 'Add a role':
+        addRole();
         break;
       case 'Add an employee':
-        addEmployee();
+        addEmpl();
         break;
-      case 'Update employee job':
-        updateEmployee();
+      case 'Update employee role':
+        upEmpl();
         break;
-      case "Exit":
-        connection.end();
+      case "End":
+        connect.end();
         break;
       default:
-        connection.end();
+        connect.end();
     }
+  });
+};
+const vDep=()=>{
+  connect.query('select * from department',(err,res)=>{
+    if (err) throw err;
+    console.table(res);
+    menu();
+  });
+};
+const vRole=()=>{
+  connect.query('select * from role',(err,res)=>{
+    if (err) throw err;
+    console.table(res);
+    menu();
+  });
+};
+const vEmpl=()=>{
+  connect.query('select * from employee',(err,res)=>{
+    if (err) throw err;
+    console.table(res);
+    menu();
   });
 };
